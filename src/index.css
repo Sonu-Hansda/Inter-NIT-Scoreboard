@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+@theme {
+  /* animations */
+  --animate-fade-in: fadeIn .6s ease-out forwards;
+  --animate-slide-up: slideUp .5s ease-out forwards;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  /* keyframes */
+  --keyframes-fadeIn: 0%{opacity:0} 100%{opacity:1};
+  --keyframes-slideUp: 
+    0%{transform:translateY(20px);opacity:0} 
+    100%{transform:translateY(0);opacity:1};
+  --keyframes-glow:
+    0%{box-shadow:0 0 4px var(--color-amber-400)}
+    100%{box-shadow:0 0 16px var(--color-amber-500)};
+}
+
+/* 3.  CUSTOM UTILITIES  –––––––––––––––––––––––––––––––––– */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
