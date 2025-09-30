@@ -16,7 +16,7 @@ export default function ScoreTable() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-4xl font-black">
+              <h1 className="text-3xl md:text-4xl font-black">
                 <span className="text-blue-900 mr-2.5">INTER NIT</span>
                 <span className="text-transparent bg-clip-text 
                    [-webkit-text-stroke:2px_#1e3a8a]">
@@ -27,7 +27,7 @@ export default function ScoreTable() {
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center justify-center mt-6 mx-auto md:mx-0 md:mt-0">
             {DUMMY_GAMES.map((game) => (
               <SportPill
                 key={game.name}
