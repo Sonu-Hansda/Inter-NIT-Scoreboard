@@ -114,9 +114,10 @@ export default function FootballScoreboard() {
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {poolGames.map((game: Game) => (
-              <PastGameTable key={game.name} game={game} />
-            ))}
+            {poolGames.map(
+              (game: Game) =>
+                game.rows.length > 0 && <PastGameTable key={game.name} game={game} />
+            )}
           </div>
         </div>
       )}
