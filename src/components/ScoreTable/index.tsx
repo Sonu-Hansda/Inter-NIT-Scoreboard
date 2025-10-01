@@ -4,7 +4,7 @@ import FootballScoreboard from './FootballScoreboard';
 import TableTennisScoreboard from './TableTennisScoreboard';
 import FutsalScoreboard from './FutsalScoreboard';
 import Teams from './TeamDisplay';
-const SPORTS = ['Football', 'Table Tennis', 'Futsal', 'Team'];
+const SPORTS = ['Football', 'Table Tennis', 'Futsal', 'Teams'];
 
 export default function ScoreTable() {
   const [selected, setSelected] = useState(SPORTS[0]);
