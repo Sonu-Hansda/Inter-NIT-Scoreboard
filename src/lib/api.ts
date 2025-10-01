@@ -20,7 +20,7 @@ export async function getTableTennisKnockout() {
 }
 
 export async function getArsenalTable() {
-    return fetch(ARSENAL_API).then(r => r.json()) as Promise<ArsenalRow[]>;
+    return fetch(ARSENAL_API).then(r => r.json()) as Promise<FutsalRow[]>;
 }
 
 export interface FootballPoolRow {
@@ -55,7 +55,7 @@ export interface TableTennisKnockoutRow {
     score: number;
 }
 
-export interface ArsenalRow {
+export interface FutsalRow {
     team_name: string;
     played: number;
     win: number;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getArsenalTable } from '../../lib/api';
-import type { ArsenalRow } from '../../lib/api';
+import type { FutsalRow } from '../../lib/api';
 import TeamRow from './TeamRow';
 import type { Row } from '../../types/Game';
 import { mapArsenalToGame } from '../../lib/mappers';
 import SkeletonTable from '../ui/SkeletonTable';
 
-export default function ArsenalScoreboard() {
-  const [table, setTable] = useState<ArsenalRow[]>([]);
+export default function FutsalScoreboard() {
+  const [table, setTable] = useState<FutsalRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

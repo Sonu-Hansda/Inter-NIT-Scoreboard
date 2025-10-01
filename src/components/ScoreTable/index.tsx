@@ -2,9 +2,9 @@ import { useState } from 'react';
 import SportPill from './SportPill';
 import FootballScoreboard from './FootballScoreboard';
 import TableTennisScoreboard from './TableTennisScoreboard';
-import ArsenalScoreboard from './ArsenalScoreboard';
+import FutsalScoreboard from './FutsalScoreboard';
 
-const SPORTS = ['Football', 'Table Tennis', 'Arsenal'];
+const SPORTS = ['Football', 'Table Tennis', 'Futsal'];
 
 export default function ScoreTable() {
   const [selected, setSelected] = useState(SPORTS[0]);
@@ -15,8 +15,8 @@ export default function ScoreTable() {
         return <FootballScoreboard />;
       case 'Table Tennis':
         return <TableTennisScoreboard />;
-      case 'Arsenal':
-        return <ArsenalScoreboard />;
+      case 'Futsal':
+        return <FutsalScoreboard />;
       default:
         return null;
     }
