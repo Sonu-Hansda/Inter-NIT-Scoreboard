@@ -29,8 +29,8 @@ export default function ScoreTable() {
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-3xl md:text-4xl font-black">
-                <span className="text-blue-900 mr-2.5">INTER NIT</span>
-                <span className="text-transparent bg-clip-text [-webkit-text-stroke:1.5px_#1e3a8a]">
+                <span className="text-blue-900 mr-2.5 drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">INTER NIT</span>
+                <span className="text-white drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
                   Scoreboard
                 </span>
               </h1>
