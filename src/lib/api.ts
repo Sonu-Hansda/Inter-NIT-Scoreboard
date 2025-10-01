@@ -1,26 +1,38 @@
+import { fetchAndCache } from './kv';
+
 const FOOTBALL_POOL_API = import.meta.env.VITE_FOOTBALL_POOL_API;
 const FOOTBALL_KNOCKOUT_API = import.meta.env.VITE_FOOTBALL_KNOCKOUT_API;
 const TABLE_TENNIS_POOL_API = import.meta.env.VITE_TABLE_TENNIS_POOL_API;
 const TABLE_TENNIS_KNOCKOUT_API = import.meta.env.VITE_TABLE_TENNIS_KNOCKOUT_API;
 const ARSENAL_API = import.meta.env.VITE_ARSENAL_API;
 
-export async function getFootballPools()   {
-  return fetch(FOOTBALL_POOL_API).then(r => r.json()) as Promise<Record<string, FootballPoolRow[]>>;
+export function getFootballPools() {
+  return fetchAndCache('football:pools', () =>
+    fetch(FOOTBALL_POOL_API).then((r) => r.json())
+  ) as Promise<Record<string, FootballPoolRow[]>>;
 }
-export async function getFootballKnockout(){
-  return fetch(FOOTBALL_KNOCKOUT_API).then(r => r.json()) as Promise<FootballKnockoutRow[]>;
-}
-
-export async function getTableTennisPools() {
-    return fetch(TABLE_TENNIS_POOL_API).then(r => r.json()) as Promise<Record<string, TableTennisPoolRow[]>>;
-}
-
-export async function getTableTennisKnockout() {
-    return fetch(TABLE_TENNIS_KNOCKOUT_API).then(r => r.json()) as Promise<TableTennisKnockoutRow[]>;
+export function getFootballKnockout() {
+  return fetchAndCache('football:knockout', () =>
+    fetch(FOOTBALL_KNOCKOUT_API).then((r) => r.json())
+  ) as Promise<FootballKnockoutRow[]>;
 }
 
-export async function getArsenalTable() {
-    return fetch(ARSENAL_API).then(r => r.json()) as Promise<FutsalRow[]>;
+export function getTableTennisPools() {
+  return fetchAndCache('table_tennis:pools', () =>
+    fetch(TABLE_TENNIS_POOL_API).then((r) => r.json())
+  ) as Promise<Record<string, TableTennisPoolRow[]>>;
+}
+
+export function getTableTennisKnockout() {
+  return fetchAndCache('table_tennis:knockout', () =>
+    fetch(TABLE_TENNIS_KNOCKOUT_API).then((r) => r.json())
+  ) as Promise<TableTennisKnockoutRow[]>;
+}
+
+export function getArsenalTable() {
+  return fetchAndCache('futsal:table', () =>
+    fetch(ARSENAL_API).then((r) => r.json())
+  ) as Promise<FutsalRow[]>;
 }
 
 export interface FootballPoolRow {
