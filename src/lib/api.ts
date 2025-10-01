@@ -1,38 +1,29 @@
-import { fetchAndCache } from './kv';
-
-const FOOTBALL_POOL_API = import.meta.env.VITE_FOOTBALL_POOL_API;
-const FOOTBALL_KNOCKOUT_API = import.meta.env.VITE_FOOTBALL_KNOCKOUT_API;
-const TABLE_TENNIS_POOL_API = import.meta.env.VITE_TABLE_TENNIS_POOL_API;
-const TABLE_TENNIS_KNOCKOUT_API = import.meta.env.VITE_TABLE_TENNIS_KNOCKOUT_API;
-const ARSENAL_API = import.meta.env.VITE_ARSENAL_API;
+async function fetchData<T>(type: string): Promise<T> {
+  const response = await fetch(`/api/data?type=${type}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${type}: ${response.statusText}`);
+  }
+  return response.json() as Promise<T>;
+}
 
 export function getFootballPools() {
-  return fetchAndCache('football:pools', () =>
-    fetch(FOOTBALL_POOL_API).then((r) => r.json())
-  ) as Promise<Record<string, FootballPoolRow[]>>;
+  return fetchData<Record<string, FootballPoolRow[]>>('football:pools');
 }
+
 export function getFootballKnockout() {
-  return fetchAndCache('football:knockout', () =>
-    fetch(FOOTBALL_KNOCKOUT_API).then((r) => r.json())
-  ) as Promise<FootballKnockoutRow[]>;
+  return fetchData<FootballKnockoutRow[]>('football:knockout');
 }
 
 export function getTableTennisPools() {
-  return fetchAndCache('table_tennis:pools', () =>
-    fetch(TABLE_TENNIS_POOL_API).then((r) => r.json())
-  ) as Promise<Record<string, TableTennisPoolRow[]>>;
+  return fetchData<Record<string, TableTennisPoolRow[]>>('table_tennis:pools');
 }
 
 export function getTableTennisKnockout() {
-  return fetchAndCache('table_tennis:knockout', () =>
-    fetch(TABLE_TENNIS_KNOCKOUT_API).then((r) => r.json())
-  ) as Promise<TableTennisKnockoutRow[]>;
+  return fetchData<TableTennisKnockoutRow[]>('table_tennis:knockout');
 }
 
-export function getArsenalTable() {
-  return fetchAndCache('futsal:table', () =>
-    fetch(ARSENAL_API).then((r) => r.json())
-  ) as Promise<FutsalRow[]>;
+export function getFutsalTable() {
+  return fetchData<FutsalRow[]>('futsal:table');
 }
 
 export interface FootballPoolRow {

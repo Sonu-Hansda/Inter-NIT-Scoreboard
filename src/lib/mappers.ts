@@ -79,11 +79,11 @@ export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[])
     };
 }
 
-export function mapArsenalToGame(arsenal: FutsalRow[]): Game {
-    if (!arsenal) return { name: 'Arsenal', rows: [] };
+export function mapFutsalToGame(futsal: FutsalRow[]): Game {
+    if (!futsal) return { name: 'Arsenal', rows: [] };
     return {
-        name: 'Arsenal',
-        rows: arsenal.map(
+        name: 'Futsal',
+        rows: futsal.map(
             (row): Row => ({
                 team: row.team_name,
                 played: row.played,

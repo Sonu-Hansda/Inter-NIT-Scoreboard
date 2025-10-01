@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { getArsenalTable } from '../../lib/api';
+import { getFutsalTable } from '../../lib/api';
 import type { FutsalRow } from '../../lib/api';
 import TeamRow from './TeamRow';
 import type { Row } from '../../types/Game';
-import { mapArsenalToGame } from '../../lib/mappers';
+import { mapFutsalToGame } from '../../lib/mappers';
 import SkeletonTable from '../ui/SkeletonTable';
 
 export default function FutsalScoreboard() {
@@ -12,7 +12,7 @@ export default function FutsalScoreboard() {
 
   useEffect(() => {
     setLoading(true);
-    getArsenalTable()
+    getFutsalTable()
       .then((data) => {
         setTable(data || []);
       })
@@ -22,7 +22,7 @@ export default function FutsalScoreboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  const game = mapArsenalToGame(table);
+  const game = mapFutsalToGame(table);
   const hasData = table && table.length > 0;
 
   if (loading) {
