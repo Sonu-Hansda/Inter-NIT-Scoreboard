@@ -3,8 +3,8 @@ import SportPill from './SportPill';
 import FootballScoreboard from './FootballScoreboard';
 import TableTennisScoreboard from './TableTennisScoreboard';
 import FutsalScoreboard from './FutsalScoreboard';
-
-const SPORTS = ['Football', 'Table Tennis', 'Futsal'];
+import Teams from './TeamDisplay';
+const SPORTS = ['Football', 'Table Tennis', 'Futsal', 'Team'];
 
 export default function ScoreTable() {
   const [selected, setSelected] = useState(SPORTS[0]);
@@ -17,6 +17,8 @@ export default function ScoreTable() {
         return <TableTennisScoreboard />;
       case 'Futsal':
         return <FutsalScoreboard />;
+      case 'Teams':
+        return <Teams />;
       default:
         return null;
     }
