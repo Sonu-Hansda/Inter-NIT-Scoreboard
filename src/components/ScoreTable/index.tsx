@@ -2,9 +2,10 @@ import { useState } from 'react';
 import SportPill from './SportPill';
 import FootballScoreboard from './FootballScoreboard';
 import TableTennisScoreboard from './TableTennisScoreboard';
-import FutsalScoreboard from './FutsalScoreboard';
+import ArsenalScoreboard from './FutsalScoreboard';
+import TeamsDisplay from './TeamDisplay';
 
-const SPORTS = ['Football', 'Table Tennis', 'Futsal'];
+const SPORTS = ['Football', 'Table Tennis', 'Arsenal', 'Teams'];
 
 export default function ScoreTable() {
   const [selected, setSelected] = useState(SPORTS[0]);
@@ -15,8 +16,10 @@ export default function ScoreTable() {
         return <FootballScoreboard />;
       case 'Table Tennis':
         return <TableTennisScoreboard />;
-      case 'Futsal':
-        return <FutsalScoreboard />;
+      case 'Arsenal':
+        return <ArsenalScoreboard />;
+      case 'Teams':
+        return <TeamsDisplay />;
       default:
         return null;
     }
@@ -29,8 +32,8 @@ export default function ScoreTable() {
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-3xl md:text-4xl font-black">
-                <span className="text-blue-900 mr-2.5 drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">INTER NIT</span>
-                <span className="text-white drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
+                <span className="text-blue-900 mr-2.5">INTER NIT</span>
+                <span className="text-transparent bg-clip-text [-webkit-text-stroke:1.5px_#1e3a8a]">
                   Scoreboard
                 </span>
               </h1>
