@@ -1,24 +1,24 @@
-import type { ArsenalRow, FootballKnockoutRow, FootballPoolRow, TableTennisKnockoutRow, TableTennisPoolRow } from './api';
+import type { FootballKnockoutRow, FootballPoolRow, FutsalRow, TableTennisKnockoutRow, TableTennisPoolRow } from './api';
 import type { Game, Row } from '../types/Game';
 
 export function mapFootballPoolsToGames(pools: Record<string, FootballPoolRow[]>): Game[] {
-  if (!pools) return [];
-  return Object.entries(pools).map(([poolName, rows]) => ({
-    name: poolName.replace('_', ' ').toUpperCase(),
-    rows: rows.map(
-      (row): Row => ({
-        team: row.team_name,
-        played: row.matches_played,
-        won: row.won,
-        draw: row.draw,
-        loss: row.loss,
-        points: row.points,
-        goals_scored: row.goals_scored,
-        goal_difference: row.goal_difference,
-        cards: row.cards,
-      })
-    ),
-  }));
+    if (!pools) return [];
+    return Object.entries(pools).map(([poolName, rows]) => ({
+        name: poolName.replace('_', ' ').toUpperCase(),
+        rows: rows.map(
+            (row): Row => ({
+                team: row.team_name,
+                played: row.matches_played,
+                won: row.won,
+                draw: row.draw,
+                loss: row.loss,
+                points: row.points,
+                goals_scored: row.goals_scored,
+                goal_difference: row.goal_difference,
+                cards: row.cards,
+            })
+        ),
+    }));
 }
 
 export function mapFootballKnockoutToGame(knockout: FootballKnockoutRow[]): Game {
@@ -30,12 +30,12 @@ export function mapFootballKnockoutToGame(knockout: FootballKnockoutRow[]): Game
                 team: row.team,
                 played: row.win + row.loss,
                 won: row.win,
-                draw: 0, // Knockout games don't have draws
+                draw: 0,
                 loss: row.loss,
                 points: row.score,
-                goals_scored: 0, // Not available in knockout data
-                goal_difference: 0, // Not available in knockout data
-                cards: { yellow: 0, red: 0 }, // Not available in knockout data
+                goals_scored: 0,
+                goal_difference: 0,
+                cards: { yellow: 0, red: 0 },
             })
         ),
     };
@@ -79,7 +79,7 @@ export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[])
     };
 }
 
-export function mapArsenalToGame(arsenal: ArsenalRow[]): Game {
+export function mapArsenalToGame(arsenal: FutsalRow[]): Game {
     if (!arsenal) return { name: 'Arsenal', rows: [] };
     return {
         name: 'Arsenal',
