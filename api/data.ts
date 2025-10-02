@@ -53,6 +53,8 @@ function getApiUrl(type: string): string | null {
       return process.env.VITE_FOOTBALL_POOL_API ?? null;
     case 'football:knockout':
       return process.env.VITE_FOOTBALL_KNOCKOUT_API ?? null;
+    case 'football:table':
+      return process.env.VITE_FOOTBALL_API ?? null;
     case 'table_tennis:boys':
       return process.env.VITE_TT_BOYS_API ?? null;
     case 'table_tennis:girls':
