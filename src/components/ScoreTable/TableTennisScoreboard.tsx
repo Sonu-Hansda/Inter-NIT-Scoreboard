@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getTableTennisBoys, getTableTennisGirls } from '../../lib/api';
+import { getTableTennis } from '../../lib/api';
 import type { TableTennisRow } from '../../lib/api';
-import TeamRow from './TeamRow';
-import type { Row } from '../../types/Game';
-import { mapTableTennisToGame } from '../../lib/mappers';
+import TableTennisTeamRow from './TableTennisTeamRow';
 import SkeletonTable from '../ui/SkeletonTable';
 
 export default function TableTennisScoreboard() {
@@ -13,10 +11,10 @@ export default function TableTennisScoreboard() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([getTableTennisBoys(), getTableTennisGirls()])
-      .then(([boys, girls]) => {
-        setBoysData(boys || []);
-        setGirlsData(girls || []);
+    getTableTennis()
+      .then((data) => {
+        setBoysData(data.tt_boys || []);
+        setGirlsData(data.tt_girls || []);
       })
       .catch(() => {
         setBoysData([]);
@@ -25,8 +23,10 @@ export default function TableTennisScoreboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  const boysGame = mapTableTennisToGame(boysData, 'Boys');
-  const girlsGame = mapTableTennisToGame(girlsData, 'Girls');
+  // The mapTableTennisToGame function is no longer needed here as TableTennisTeamRow directly uses TableTennisRow
+  // Keeping the original data for direct use with the new component
+  const boysGameData = boysData;
+  const girlsGameData = girlsData;
 
   const hasBoysData = boysData && boysData.length > 0;
   const hasGirlsData = girlsData && girlsData.length > 0;
@@ -64,8 +64,8 @@ export default function TableTennisScoreboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {boysGame.rows.map((row: Row, i: number) => (
-                  <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={true} />
+                {boysGameData.map((row: TableTennisRow, i: number) => (
+                  <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
                 ))}
               </tbody>
             </table>
@@ -88,8 +88,8 @@ export default function TableTennisScoreboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {girlsGame.rows.map((row: Row, i: number) => (
-                  <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={true} />
+                {girlsGameData.map((row: TableTennisRow, i: number) => (
+                  <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
                 ))}
               </tbody>
             </table>

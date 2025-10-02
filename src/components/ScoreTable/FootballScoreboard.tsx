@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFootballKnockout, getFootballPools } from '../../lib/api';
+import { getFootball } from '../../lib/api';
 import type { FootballKnockoutRow, FootballPoolRow } from '../../lib/api';
 import PastGameTable from './PastGameTable';
 import TeamRow from './TeamRow';
@@ -14,10 +14,10 @@ export default function FootballScoreboard() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([getFootballPools(), getFootballKnockout()])
-      .then(([poolData, knockoutData]) => {
-        setPools(poolData || {});
-        setKnockout(knockoutData || []);
+    getFootball()
+      .then((data) => {
+        setPools(data.football_pool || {});
+        setKnockout(data.football_knockout || []);
       })
       .catch(() => {
         setPools({});
@@ -77,36 +77,36 @@ export default function FootballScoreboard() {
       ) : (
         hasPoolData && (
           <div className="space-y-8">
-              {poolGames.map((game) => (
-                game.rows.length > 0 && (
+            {poolGames.map((game) => (
+              game.rows.length > 0 && (
                 <div key={game.name}>
                   <h2 className="text-2xl font-bold mb-4 text-blue-900">{game.name}</h2>
-                <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
-                  <table className="w-full text-sm text-gray-700">
-                    <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
-                      <tr>
-                        <th className="px-6 py-3 text-left font-medium">Team</th>
-                        <th className="px-6 py-3 text-center font-medium">Played</th>
-                        <th className="px-6 py-3 text-center font-medium">Won</th>
-                        <th className="px-6 py-3 text-center font-medium">Draw</th>
-                        <th className="px-6 py-3 text-center font-medium">Loss</th>
+                  <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+                    <table className="w-full text-sm text-gray-700">
+                      <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
+                        <tr>
+                          <th className="px-6 py-3 text-left font-medium">Team</th>
+                          <th className="px-6 py-3 text-center font-medium">Played</th>
+                          <th className="px-6 py-3 text-center font-medium">Won</th>
+                          <th className="px-6 py-3 text-center font-medium">Draw</th>
+                          <th className="px-6 py-3 text-center font-medium">Loss</th>
                           <th className="px-6 py-3 text-center font-medium">Points</th>
                           <th className="px-6 py-3 text-center font-medium">Goal Score</th>
                           <th className="px-6 py-3 text-center font-medium">Goal Difference</th>
                           <th className="px-6 py-3 text-center font-medium">Cards</th>
                         </tr>
                       </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {game.rows.map((row: Row, i: number) => (
-                        <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={false} />
-                      ))}
-                    </tbody>
-                  </table>
+                      <tbody className="divide-y divide-gray-200">
+                        {game.rows.map((row: Row, i: number) => (
+                          <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={false} />
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                )
-              ))}
-            </div>
+              )
+            ))}
+          </div>
         )
       )}
 
