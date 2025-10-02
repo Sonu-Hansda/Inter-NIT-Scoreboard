@@ -44,7 +44,7 @@ export default function ScoreTable() {
               </p>
             </div>
           </div>
-          <div className="flex gap-2 items-center justify-center mt-6 mx-auto md:mx-0 md:mt-0">
+          <div className="w-full md:w-auto grid grid-cols-2 md:grid-cols-4 gap-2 items-stretch mt-6 md:mt-0">
             {SPORTS.map((sport) => (
               <SportPill
                 key={sport}
