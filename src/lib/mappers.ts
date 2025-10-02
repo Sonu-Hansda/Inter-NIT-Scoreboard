@@ -1,4 +1,4 @@
-import type { FootballKnockoutRow, FootballPoolRow, FutsalRow, TableTennisRow } from './api';
+import type { FootballKnockoutRow, FootballPoolRow, FutsalRow } from './api';
 import type { Game, Row } from '../types/Game';
 
 export function mapFootballPoolsToGames(pools: Record<string, FootballPoolRow[]>): Game[] {
@@ -41,24 +41,6 @@ export function mapFootballKnockoutToGame(knockout: FootballKnockoutRow[]): Game
     };
 }
 
-export function mapTableTennisToGame(data: TableTennisRow[], name: string): Game {
-    if (!data) return { name, rows: [] };
-    return {
-        name,
-        rows: data.map(
-            (row): Row => ({
-                team: row.team,
-                played: row.matches_played,
-                won: row.win,
-                draw: 0,
-                loss: row.loss,
-                points: row.score ?? 0,
-                goals_scored: 0,
-                goal_difference: 0,
-            })
-        ),
-    };
-}
 
 export function mapFutsalToGame(futsal: FutsalRow[]): Game {
     if (!futsal) return { name: 'Arsenal', rows: [] };

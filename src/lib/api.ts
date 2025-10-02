@@ -1,13 +1,9 @@
 function getApiUrl(type: string): string | null {
   switch (type) {
-    case 'football:pools':
-      return import.meta.env.VITE_FOOTBALL_POOL_API ?? null;
-    case 'football:knockout':
-      return import.meta.env.VITE_FOOTBALL_KNOCKOUT_API ?? null;
-    case 'table_tennis:boys':
-      return import.meta.env.VITE_TT_BOYS_API ?? null;
-    case 'table_tennis:girls':
-      return import.meta.env.VITE_TT_GIRLS_API ?? null;
+    case 'football:table':
+      return import.meta.env.VITE_FOOTBALL_API ?? null;
+    case 'table_tennis:table':
+      return import.meta.env.VITE_TABLE_TENNIS_API ?? null;
     case 'futsal:table':
       return import.meta.env.VITE_FUTSAL_API ?? null;
     default:
@@ -18,7 +14,7 @@ function getApiUrl(type: string): string | null {
 async function fetchData<T>(type: string): Promise<T> {
   let url: string | null;
 
-  if (import.meta.env.DEV) {
+  if (import.meta.env.VITE_DEV) {
     url = getApiUrl(type);
     if (!url) {
       throw new Error(`Invalid data type: ${type}`);
@@ -34,24 +30,16 @@ async function fetchData<T>(type: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export function getFootballPools() {
-  return fetchData<Record<string, FootballPoolRow[]>>('football:pools');
+export function getFootball(){
+  return fetchData<CombinedFootballData>('football:table');
 }
 
-export function getFootballKnockout() {
-  return fetchData<FootballKnockoutRow[]>('football:knockout');
-}
-
-export function getTableTennisBoys() {
-  return fetchData<TableTennisRow[]>('table_tennis:boys');
-}
-
-export function getTableTennisGirls() {
-  return fetchData<TableTennisRow[]>('table_tennis:girls');
+export function getTableTennis() {
+  return fetchData<CombinedTableTennisData>('table_tennis:table');
 }
 
 export function getFutsalTable() {
-  return fetchData<FutsalRow[]>('futsal:table');
+  return fetchData<CombinedFutsalData>('futsal:table');
 }
 
 export interface FootballPoolRow {
@@ -72,12 +60,27 @@ export interface FootballKnockoutRow {
   score: number;
 }
 
+export interface CombinedFootballData {
+  football_pool: Record<string, FootballPoolRow[]>;
+  football_knockout: FootballKnockoutRow[];
+}
+
 export interface TableTennisRow {
   team: string;
   matches_played: number;
   win: number;
   loss: number;
-  score: number | null;
+  score: number;
+}
+
+export interface CombinedTableTennisData {
+  tt_boys: TableTennisRow[];
+  tt_girls: TableTennisRow[];
+}
+
+export interface CombinedFutsalData {
+  futsal_pool: Record<string, FootballPoolRow[]>;
+  futsal_knockout: FootballKnockoutRow[];
 }
 
 export interface FutsalRow {
