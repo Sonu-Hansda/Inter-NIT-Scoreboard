@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const CACHE_TTL = 60 * 5; // 5 minutes
+const CACHE_TTL = 60 * 5;
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
@@ -53,10 +53,10 @@ function getApiUrl(type: string): string | null {
       return process.env.VITE_FOOTBALL_POOL_API ?? null;
     case 'football:knockout':
       return process.env.VITE_FOOTBALL_KNOCKOUT_API ?? null;
-    case 'table_tennis:pools':
-      return process.env.VITE_TABLE_TENNIS_POOL_API ?? null;
-    case 'table_tennis:knockout':
-      return process.env.VITE_TABLE_TENNIS_KNOCKOUT_API ?? null;
+    case 'table_tennis:boys':
+      return process.env.VITE_TT_BOYS_API ?? null;
+    case 'table_tennis:girls':
+      return process.env.VITE_TT_GIRLS_API ?? null;
     case 'futsal:table':
       return process.env.VITE_FUTSAL_API ?? null;
     default:
