@@ -72,7 +72,7 @@ export default function ScoreTable() {
             <div className="flex items-center gap-4">
               <div>
                 <h1 className="text-3xl md:text-4xl font-black">
-                  <a href="https://inter-nit.sacnitjsr.org">
+                  <a href="https://inter-nit.sacnitjsr.org" target="_blank">
                     <span className="text-blue-900 mr-2.5 drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
                       INTER NIT
                     </span>
