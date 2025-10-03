@@ -37,9 +37,9 @@ export default function FootballScoreboard() {
     const poolHeaders = ['Team', 'Played', 'Won', 'Draw', 'Loss', 'Points', 'GS', 'GD'];
 
     return (
-      <div className="min-h-screen bg-gray-100 text-gray-800 p-6 md:p-10 space-y-10">
+      <div className="min-h-[600px] bg-gray-100 text-gray-800 p-6 md:p-10 space-y-10">
         <SkeletonTable headers={koHeaders} rows={4} />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="space-y-2">
               <div className="h-6 w-24 bg-gray-200 rounded animate-pulse" />
@@ -52,7 +52,7 @@ export default function FootballScoreboard() {
   }
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in min-h-[600px]">
       {hasKnockoutData ? (
         <>
           <h2 className="text-2xl font-bold mb-4 text-blue-900">Current Matches - Knockout</h2>
@@ -76,7 +76,7 @@ export default function FootballScoreboard() {
         </>
       ) : (
         hasPoolData && (
-          <div className="space-y-8">
+          <div className="space-y-8 min-h-[400px]">
             {poolGames.map((game) => (
               game.rows.length > 0 && (
                 <div key={game.name}>
@@ -111,7 +111,7 @@ export default function FootballScoreboard() {
       )}
 
       {hasKnockoutData && hasPoolData && (
-        <div className="mt-8">
+        <div className="mt-8 min-h-[300px]">
           <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {poolGames.map(
@@ -123,7 +123,7 @@ export default function FootballScoreboard() {
       )}
 
       {!hasKnockoutData && !hasPoolData && (
-        <div className="text-center py-10">
+        <div className="text-center py-10 min-h-[300px]">
           <p className="text-lg text-gray-500">No match data available at the moment.</p>
         </div>
       )}
