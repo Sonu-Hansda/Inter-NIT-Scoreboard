@@ -72,9 +72,11 @@ export default function ScoreTable() {
             <div className="flex items-center gap-4">
               <div>
                 <h1 className="text-3xl md:text-4xl font-black">
-                  <span className="text-blue-900 mr-2.5 drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
-                    INTER NIT
-                  </span>
+                  <a href="https://inter-nit.sacnitjsr.org">
+                    <span className="text-blue-900 mr-2.5 drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
+                      INTER NIT
+                    </span>
+                  </a>
                   <span className="text-white drop-shadow-[0_2px_2px_rgba(30,58,138,0.5)]">
                     Scoreboard
                   </span>
@@ -125,11 +127,10 @@ export default function ScoreTable() {
                   {currentSportVideos.map((video, index) => (
                     <button
                       key={video.label}
-                      className={`py-2 px-4 text-sm font-medium rounded-md ${
-                        selectedVideoIndex === index
-                          ? "bg-blue-600 text-white"
-                          : "bg-white text-gray-900 border border-gray-200 hover:bg-gray-100"
-                      }`}
+                      className={`py-2 px-4 text-sm font-medium rounded-md ${selectedVideoIndex === index
+                        ? "bg-blue-600 text-white"
+                        : "bg-white text-gray-900 border border-gray-200 hover:bg-gray-100"
+                        }`}
                       onClick={() => setSelectedVideoIndex(index)}
                     >
                       {video.label}
