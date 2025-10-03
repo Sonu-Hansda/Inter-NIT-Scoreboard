@@ -1,9 +1,9 @@
 import { useInView } from 'react-intersection-observer';
 import AnimatedNumber from '../ui/AnimatedNumber';
-import type { TableTennisRow } from '../../lib/api';
+import type { Row } from '../../types/Game'; // Import Row type
 
 interface Props {
-  row: TableTennisRow;
+  row: Row; // Change to Row type
   delay: number;
 }
 
@@ -22,10 +22,10 @@ export default function TableTennisTeamRow({ row, delay }: Props) {
       <td className="px-6 py-4 flex items-center gap-3">
         <span className="font-semibold">{row.team}</span>
       </td>
-      <td className="px-6 py-4 text-center"><AnimatedNumber value={row.matches_played} /></td>
-      <td className="px-6 py-4 text-center"><AnimatedNumber value={row.win} /></td>
+      <td className="px-6 py-4 text-center"><AnimatedNumber value={row.played} /></td>
+      <td className="px-6 py-4 text-center"><AnimatedNumber value={row.won} /></td>
       <td className="px-6 py-4 text-center"><AnimatedNumber value={row.loss} /></td>
-      <td className="px-6 py-4 text-center font-bold"><AnimatedNumber value={row.score ?? 0} /></td>
+      <td className="px-6 py-4 text-center font-bold"><AnimatedNumber value={row.points ?? 0} /></td>
     </tr>
   );
 }

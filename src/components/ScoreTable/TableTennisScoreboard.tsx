@@ -1,35 +1,51 @@
 import { useEffect, useState } from 'react';
-import { getTableTennis } from '../../lib/api';
-import type { TableTennisRow } from '../../lib/api';
+import { getTableTennisBoys, getTableTennisGirls } from '../../lib/api';
+import type { TableTennisRow, TableTennisKnockoutRow } from '../../lib/api';
 import TableTennisTeamRow from './TableTennisTeamRow';
 import SkeletonTable from '../ui/SkeletonTable';
+import PastGameTable from './PastGameTable'; // Reusing PastGameTable for TT pools
+import type { Game } from '../../types/Game';
+import { mapTableTennisPoolsToGames, mapTableTennisKnockoutToGame } from '../../lib/mappers';
 
-export default function TableTennisScoreboard() {
-  const [boysData, setBoysData] = useState<TableTennisRow[]>([]);
-  const [girlsData, setGirlsData] = useState<TableTennisRow[]>([]);
+interface TableTennisScoreboardProps {
+  viewGender: 'boys' | 'girls';
+  setViewGender: (gender: 'boys' | 'girls') => void;
+}
+
+export default function TableTennisScoreboard({ viewGender, setViewGender }: TableTennisScoreboardProps) {
+  const [boysPoolData, setBoysPoolData] = useState<Record<string, TableTennisRow[]>>({});
+  const [boysKnockoutData, setBoysKnockoutData] = useState<TableTennisKnockoutRow[]>([]);
+  const [girlsPoolData, setGirlsPoolData] = useState<Record<string, TableTennisRow[]>>({});
+  const [girlsKnockoutData, setGirlsKnockoutData] = useState<TableTennisKnockoutRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    getTableTennis()
-      .then((data) => {
-        setBoysData(data.tt_boys || []);
-        setGirlsData(data.tt_girls || []);
+    Promise.all([getTableTennisBoys(), getTableTennisGirls()])
+      .then(([boysData, girlsData]) => {
+        setBoysPoolData(boysData.tt_boys_pool || {});
+        setBoysKnockoutData(boysData.tt_boys_knockout || []);
+        setGirlsPoolData(girlsData.tt_boys_pool || {});
+        setGirlsKnockoutData(girlsData.tt_boys_knockout || []);
       })
-      .catch(() => {
-        setBoysData([]);
-        setGirlsData([]);
+      .catch((error) => {
+        console.error("Failed to fetch table tennis data:", error);
+        setBoysPoolData({});
+        setBoysKnockoutData([]);
+        setGirlsPoolData({});
+        setGirlsKnockoutData([]);
       })
       .finally(() => setLoading(false));
   }, []);
 
-  // The mapTableTennisToGame function is no longer needed here as TableTennisTeamRow directly uses TableTennisRow
-  // Keeping the original data for direct use with the new component
-  const boysGameData = boysData;
-  const girlsGameData = girlsData;
+  const currentPoolData = viewGender === 'boys' ? boysPoolData : girlsPoolData;
+  const currentKnockoutData = viewGender === 'boys' ? boysKnockoutData : girlsKnockoutData;
 
-  const hasBoysData = boysData && boysData.length > 0;
-  const hasGirlsData = girlsData && girlsData.length > 0;
+  const poolGames: Game[] = mapTableTennisPoolsToGames(currentPoolData);
+  const knockoutGame: Game = mapTableTennisKnockoutToGame(currentKnockoutData);
+
+  const hasPoolData = poolGames.length > 0;
+  const hasKnockoutData = knockoutGame.rows.length > 0;
 
   if (loading) {
     const headers = ['Team', 'Played', 'Won', 'Loss', 'Points'];
@@ -49,57 +65,103 @@ export default function TableTennisScoreboard() {
 
   return (
     <div className="animate-fade-in space-y-8">
-      {hasBoysData && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Boys</h2>
+      <div className="flex justify-center mb-4">
+        <div className="inline-flex rounded-md shadow-sm">
+          <button
+            type="button"
+            className={`py-2 px-4 text-sm font-medium rounded-l-lg ${
+              viewGender === 'boys'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-gray-900 border border-gray-200 hover:bg-gray-100'
+            }`}
+            onClick={() => setViewGender('boys')}
+          >
+            Boys
+          </button>
+          <button
+            type="button"
+            className={`py-2 px-4 text-sm font-medium rounded-r-lg ${
+              viewGender === 'girls'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-gray-900 border border-gray-200 hover:bg-gray-100'
+            }`}
+            onClick={() => setViewGender('girls')}
+          >
+            Girls
+          </button>
+        </div>
+      </div>
+
+      {hasKnockoutData ? (
+        <>
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">Knockout Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
           <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
             <table className="w-full text-sm text-gray-700">
               <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
                 <tr>
                   <th className="px-6 py-3 text-left font-medium">Team</th>
-                  <th className="px-6 py-3 text-center font-medium">Played</th>
-                  <th className="px-6 py-3 text-center font-medium">Won</th>
+                  <th className="px-6 py-3 text-center font-medium">Win</th>
                   <th className="px-6 py-3 text-center font-medium">Loss</th>
-                  <th className="px-6 py-3 text-center font-medium">Points</th>
+                  <th className="px-6 py-3 text-center font-medium">Score</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {boysGameData.map((row: TableTennisRow, i: number) => (
-                  <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
+                {knockoutGame.rows.map((row, i: number) => (
+                  <tr key={row.team} className="hover:bg-gray-50 animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{row.team}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">{row.won}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">{row.loss}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">{row.points}</td>
+                  </tr>
                 ))}
               </tbody>
             </table>
           </div>
+        </>
+      ) : hasPoolData ? (
+        <div className="space-y-8">
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
+          {poolGames.map((game) => (
+            game.rows.length > 0 && (
+              <div key={game.name}>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">{game.name}</h3>
+                <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+                  <table className="w-full text-sm text-gray-700">
+                    <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
+                      <tr>
+                        <th className="px-6 py-3 text-left font-medium">Team</th>
+                        <th className="px-6 py-3 text-center font-medium">Played</th>
+                        <th className="px-6 py-3 text-center font-medium">Won</th>
+                        <th className="px-6 py-3 text-center font-medium">Loss</th>
+                        <th className="px-6 py-3 text-center font-medium">Points</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {game.rows.map((row, i: number) => (
+                        <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          ))}
         </div>
-      )}
-
-      {hasGirlsData && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Girls</h2>
-          <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
-            <table className="w-full text-sm text-gray-700">
-              <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
-                <tr>
-                  <th className="px-6 py-3 text-left font-medium">Team</th>
-                  <th className="px-6 py-3 text-center font-medium">Played</th>
-                  <th className="px-6 py-3 text-center font-medium">Won</th>
-                  <th className="px-6 py-3 text-center font-medium">Loss</th>
-                  <th className="px-6 py-3 text-center font-medium">Points</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {girlsGameData.map((row: TableTennisRow, i: number) => (
-                  <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {!hasBoysData && !hasGirlsData && (
+      ) : (
         <div className="text-center py-10">
-          <p className="text-lg text-gray-500">Game data not available at the moment.</p>
+          <p className="text-lg text-gray-500">No match data available at the moment for {viewGender === 'boys' ? 'Boys' : 'Girls'}.</p>
+        </div>
+      )}
+
+      {hasKnockoutData && hasPoolData && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {poolGames.map(
+              (game: Game) =>
+                game.rows.length > 0 && <PastGameTable key={game.name} game={game} />
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import type { FootballKnockoutRow, FootballPoolRow, FutsalRow } from './api';
+import type { FootballKnockoutRow, FootballPoolRow, FutsalRow, TableTennisKnockoutRow, TableTennisRow } from './api';
 import type { Game, Row } from '../types/Game';
 
 export function mapFootballPoolsToGames(pools: Record<string, FootballPoolRow[]>): Game[] {
@@ -39,6 +39,46 @@ export function mapFootballKnockoutToGame(knockout: FootballKnockoutRow[]): Game
             })
         ),
     };
+}
+
+export function mapTableTennisPoolsToGames(pools: Record<string, TableTennisRow[]>): Game[] {
+  if (!pools) return [];
+  return Object.entries(pools).map(([poolName, rows]) => ({
+    name: `Pool ${poolName.split('_')[1].toUpperCase()}`,
+    rows: rows.map(
+      (row): Row => ({
+        team: row.team_name, // Changed from row.team to row.team_name
+        played: row.matches_played,
+        won: row.win,
+        draw: 0,
+        loss: row.loss,
+        points: row.points,
+        goals_scored: 0,
+        goal_difference: 0,
+        cards: { yellow: 0, red: 0 }, // Default values as not applicable for TT
+      })
+    ),
+  }));
+}
+
+export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[]): Game {
+  if (!knockout) return { name: 'Knockout', rows: [] };
+  return {
+    name: 'Knockout',
+    rows: knockout.map(
+      (row): Row => ({
+        team: row.team,
+        played: row.win + row.loss,
+        won: row.win,
+        draw: 0,
+        loss: row.loss,
+        points: row.score, // Using score as points for knockout
+        goals_scored: 0,
+        goal_difference: 0,
+        cards: { yellow: 0, red: 0 }, // Default values as not applicable for TT
+      })
+    ),
+  };
 }
 
 

@@ -2,8 +2,10 @@ function getApiUrl(type: string): string | null {
   switch (type) {
     case 'football:table':
       return import.meta.env.VITE_FOOTBALL_API ?? null;
-    case 'table_tennis:table':
-      return import.meta.env.VITE_TABLE_TENNIS_API ?? null;
+    case 'table_tennis:boys':
+      return import.meta.env.VITE_TT_BOYS_API ?? null;
+    case 'table_tennis:girls':
+      return import.meta.env.VITE_TT_GIRLS_API ?? null;
     case 'futsal:table':
       return import.meta.env.VITE_FUTSAL_API ?? null;
     default:
@@ -34,8 +36,12 @@ export function getFootball(){
   return fetchData<CombinedFootballData>('football:table');
 }
 
-export function getTableTennis() {
-  return fetchData<CombinedTableTennisData>('table_tennis:table');
+export function getTableTennisBoys() {
+  return fetchData<TableTennisData>('table_tennis:boys');
+}
+
+export function getTableTennisGirls() {
+  return fetchData<TableTennisData>('table_tennis:girls');
 }
 
 export function getFutsalTable() {
@@ -66,16 +72,24 @@ export interface CombinedFootballData {
 }
 
 export interface TableTennisRow {
-  team: string;
+  team_name: string; // Changed from 'team' to 'team_name'
   matches_played: number;
   win: number;
   loss: number;
+  points: number;
   score: number;
 }
 
-export interface CombinedTableTennisData {
-  tt_boys: TableTennisRow[];
-  tt_girls: TableTennisRow[];
+export interface TableTennisData {
+  tt_boys_pool: Record<string, TableTennisRow[]>;
+  tt_boys_knockout: TableTennisKnockoutRow[];
+}
+
+export interface TableTennisKnockoutRow {
+  team: string;
+  win: number;
+  loss: number;
+  score: number;
 }
 
 export interface CombinedFutsalData {
