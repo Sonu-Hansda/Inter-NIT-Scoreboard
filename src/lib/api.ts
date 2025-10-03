@@ -83,6 +83,8 @@ export interface TableTennisRow {
 export interface TableTennisData {
   tt_boys_pool: Record<string, TableTennisRow[]>;
   tt_boys_knockout: TableTennisKnockoutRow[];
+  tt_girls_pool: Record<string, TableTennisRow[]>;
+  tt_girls_knockout: TableTennisKnockoutRow[];
 }
 
 export interface TableTennisKnockoutRow {

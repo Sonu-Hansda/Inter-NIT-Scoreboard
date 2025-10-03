@@ -25,8 +25,8 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
       .then(([boysData, girlsData]) => {
         setBoysPoolData(boysData.tt_boys_pool || {});
         setBoysKnockoutData(boysData.tt_boys_knockout || []);
-        setGirlsPoolData(girlsData.tt_boys_pool || {});
-        setGirlsKnockoutData(girlsData.tt_boys_knockout || []);
+        setGirlsPoolData(girlsData.tt_girls_pool || {});
+        setGirlsKnockoutData(girlsData.tt_girls_knockout || []);
       })
       .catch((error) => {
         console.error("Failed to fetch table tennis data:", error);
