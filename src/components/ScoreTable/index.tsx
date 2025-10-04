@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, type RefObject } from "react";
 import SportPill from "./SportPill";
 import FootballScoreboard from "./FootballScoreboard";
 import TableTennisScoreboard from "./TableTennisScoreboard";
@@ -8,7 +8,12 @@ import { VIDEO_CONFIG, type VideoSource } from "../../lib/videoConfig";
 
 const SPORTS = ["Football", "Table Tennis", "Futsal", "Teams"];
 
-export default function ScoreTable() {
+interface ScoreTableProps {
+  videoSectionRef: RefObject<HTMLDivElement | null>;
+  onVideoSourceAvailableChange: (isAvailable: boolean) => void;
+}
+
+export default function ScoreTable({ videoSectionRef, onVideoSourceAvailableChange }: ScoreTableProps) {
   const [selected, setSelected] = useState(SPORTS[0]);
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [tableTennisGender, setTableTennisGender] = useState<"boys" | "girls">(
@@ -42,6 +47,11 @@ export default function ScoreTable() {
 
   const currentSportVideos = getCurrentSportVideos();
   const currentVideo = currentSportVideos[selectedVideoIndex];
+
+  // Notify parent component about video source availability
+  useEffect(() => {
+    onVideoSourceAvailableChange(!!currentVideo && selected !== "Teams");
+  }, [currentVideo, selected, onVideoSourceAvailableChange]);
 
   const renderScoreboard = () => {
     switch (selected) {
@@ -111,7 +121,7 @@ export default function ScoreTable() {
 
           {/* Videos */}
           {currentVideo && selected !== "Teams" && (
-            <div className="mt-8 mb-8">
+            <div ref={videoSectionRef} className="mt-8 mb-8">
               <div className="relative aspect-video w-full bg-gray-200 rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"

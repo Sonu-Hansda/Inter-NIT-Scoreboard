@@ -12,6 +12,21 @@ export default function FootballScoreboard() {
   const [knockout, setKnockout] = useState<FootballKnockoutRow[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sortTeams = (teams: Row[]): Row[] => {
+    return [...teams].sort((a, b) => {
+      // Primary sort by points (descending)
+      if (b.points !== a.points) {
+        return b.points - a.points;
+      }
+      // Secondary sort by goal difference (descending)
+      if (b.goal_difference !== a.goal_difference) {
+        return b.goal_difference - a.goal_difference;
+      }
+      // Tertiary sort by wins (descending)
+      return b.won - a.won;
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
     getFootball()
@@ -97,7 +112,7 @@ export default function FootballScoreboard() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
-                        {game.rows.map((row: Row, i: number) => (
+                        {sortTeams(game.rows).map((row: Row, i: number) => (
                           <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={false} />
                         ))}
                       </tbody>

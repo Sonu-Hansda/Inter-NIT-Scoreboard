@@ -4,13 +4,28 @@ import type { TableTennisRow, TableTennisKnockoutRow } from '../../lib/api';
 import TableTennisTeamRow from './TableTennisTeamRow';
 import SkeletonTable from '../ui/SkeletonTable';
 import PastGameTable from './PastGameTable'; // Reusing PastGameTable for TT pools
-import type { Game } from '../../types/Game';
+import type { Game, Row } from '../../types/Game';
 import { mapTableTennisPoolsToGames, mapTableTennisKnockoutToGame } from '../../lib/mappers';
 
 interface TableTennisScoreboardProps {
   viewGender: 'boys' | 'girls';
   setViewGender: (gender: 'boys' | 'girls') => void;
 }
+
+const sortTeams = (teams: Row[]): Row[] => {
+  return [...teams].sort((a, b) => {
+    // Primary sort by points (descending)
+    if (b.points !== a.points) {
+      return b.points - a.points;
+    }
+    // Secondary sort by wins (descending)
+    if (b.won !== a.won) {
+      return b.won - a.won;
+    }
+    // Tertiary sort by losses (ascending)
+    return a.loss - b.loss;
+  });
+};
 
 export default function TableTennisScoreboard({ viewGender, setViewGender }: TableTennisScoreboardProps) {
   const [boysPoolData, setBoysPoolData] = useState<Record<string, TableTennisRow[]>>({});
@@ -137,7 +152,7 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {game.rows.map((row, i: number) => (
+                      {sortTeams(game.rows).map((row, i: number) => (
                         <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
                       ))}
                     </tbody>
