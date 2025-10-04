@@ -74,7 +74,7 @@ export interface CombinedFootballData {
 export interface TableTennisRow {
   team_name: string; // Changed from 'team' to 'team_name'
   matches_played: number;
-  win: number;
+  won: number;
   loss: number;
   points: number;
   score: number;
@@ -89,7 +89,7 @@ export interface TableTennisData {
 
 export interface TableTennisKnockoutRow {
   team: string;
-  win: number;
+  won: number;
   loss: number;
   score: number;
 }

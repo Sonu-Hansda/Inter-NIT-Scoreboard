@@ -49,7 +49,7 @@ export function mapTableTennisPoolsToGames(pools: Record<string, TableTennisRow[
       (row): Row => ({
         team: row.team_name, // Changed from row.team to row.team_name
         played: row.matches_played,
-        won: row.win,
+        won: row.won,
         draw: 0,
         loss: row.loss,
         points: row.points,
@@ -68,8 +68,8 @@ export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[])
     rows: knockout.map(
       (row): Row => ({
         team: row.team,
-        played: row.win + row.loss,
-        won: row.win,
+        played: row.won + row.loss,
+        won: row.won,
         draw: 0,
         loss: row.loss,
         points: row.score, // Using score as points for knockout
