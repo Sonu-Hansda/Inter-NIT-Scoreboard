@@ -121,15 +121,15 @@ export default function FootballScoreboard() {
   return (
     <div className="animate-fade-in min-h-[600px]">
       {currentMainStage === 'final' ? (
-        renderKnockoutTable(finalGame, 'Final Stage')
+        renderKnockoutTable(finalGame, 'Final')
       ) : currentMainStage === 'bronze' ? (
         renderKnockoutTable(bronzeGame, 'Bronze Match')
       ) : currentMainStage === 'semi' ? (
-        renderKnockoutTable(semiGame, 'Semi-Final Stage')
+        renderKnockoutTable(semiGame, 'Semi Final')
       ) : currentMainStage === 'quarter' ? (
-        renderKnockoutTable(quarterGame, 'Quarter-Final Stage')
+        renderKnockoutTable(quarterGame, 'Quarter Final')
       ) : currentMainStage === 'knockout' ? (
-        renderKnockoutTable(knockoutGame, 'Knockout Stage')
+        renderKnockoutTable(knockoutGame, 'Knockout')
       ) : currentMainStage === 'pool' ? (
         <div className="space-y-8 min-h-[400px]">
           {poolGames.map((game) => (
