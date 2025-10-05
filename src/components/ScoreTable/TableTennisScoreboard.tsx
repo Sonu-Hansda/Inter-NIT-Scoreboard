@@ -62,6 +62,7 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
   const hasPoolData = poolGames.length > 0;
   const hasKnockoutData = knockoutGame.rows.length > 0;
 
+
   if (loading) {
     const headers = ['Team', 'Played', 'Won', 'Loss', 'Points'];
     return (

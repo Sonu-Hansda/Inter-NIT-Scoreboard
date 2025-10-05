@@ -9,7 +9,7 @@ export function mapFootballPoolsToGames(pools: Record<string, FootballPoolRow[]>
             (row): Row => ({
                 team: row.team_name,
                 played: row.matches_played,
-                won: row.won,
+        won: row.won,
                 draw: row.draw,
                 loss: row.loss,
                 points: row.points,
@@ -68,14 +68,14 @@ export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[])
     rows: knockout.map(
       (row): Row => ({
         team: row.team,
-        played: row.won + row.loss,
-        won: row.won,
+        played: row.win + row.loss,
+        won: row.win ?? 0,
         draw: 0,
         loss: row.loss,
-        points: row.score, // Using score as points for knockout
+        points: row.score ?? 0,
         goals_scored: 0,
         goal_difference: 0,
-        cards: { yellow: 0, red: 0 }, // Default values as not applicable for TT
+        cards: { yellow: 0, red: 0 },
       })
     ),
   };

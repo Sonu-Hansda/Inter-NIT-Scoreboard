@@ -89,7 +89,7 @@ export interface TableTennisData {
 
 export interface TableTennisKnockoutRow {
   team: string;
-  won: number;
+  win: number;
   loss: number;
   score: number;
 }
