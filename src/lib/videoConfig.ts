@@ -17,15 +17,11 @@ export const VIDEO_CONFIG: SportVideos = {
   ],
   tableTennisBoys: [
     { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/YikUAH1Pwus?si=TcbjCXNyFB5CEtCh' },
-    // { label: 'View 2', url: 'https://www.youtube.com/embed/VIDEO_ID_TT_BOYS_2' },
   ],
   tableTennisGirls: [
     { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/YikUAH1Pwus?si=TcbjCXNyFB5CEtCh' },
-    // { label: 'View 2', url: 'https://www.youtube.com/embed/VIDEO_ID_TT_GIRLS_2' },
   ],
   futsal: [
     { label: 'Footbal Ground 2', url: 'https://www.youtube.com/embed/jOW0uiiHqlI?si=hnaqlcC7t5DOv1K_' },
-    // { label: 'View 1', url: 'https://www.youtube.com/embed/VIDEO_ID_FUTSAL_1' },
-    // { label: 'View 2', url: 'https://www.youtube.com/embed/VIDEO_ID_FUTSAL_2' },
   ],
 };
