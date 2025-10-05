@@ -1,6 +1,7 @@
 import { createClient } from 'redis';
 
-const CACHE_TTL = 60 * 5;
+const SHORT_CACHE_TTL = 60 * 5; // 5 minutes
+const LONG_CACHE_TTL = 60 * 60 * 2; // 2 hours
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
@@ -34,8 +35,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const response = await fetch(apiUrl);
     const freshData = await response.json();
 
+    let ttl = SHORT_CACHE_TTL;
+    if (
+      type === 'football:table' ||
+      type === 'table_tennis:boys' ||
+      type === 'table_tennis:girls' ||
+      type === 'futsal:table'
+    ) {
+      ttl = LONG_CACHE_TTL;
+    }
+
     await client.set(type, JSON.stringify(freshData), {
-      EX: CACHE_TTL,
+      EX: ttl,
     });
 
     return res.status(200).json(freshData);
@@ -49,18 +60,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 function getApiUrl(type: string): string | null {
   switch (type) {
-    case 'football:pools':
-      return process.env.VITE_FOOTBALL_POOL_API ?? null;
-    case 'football:knockout':
-      return process.env.VITE_FOOTBALL_KNOCKOUT_API ?? null;
     case 'football:table':
       return process.env.VITE_FOOTBALL_API ?? null;
     case 'table_tennis:boys':
       return process.env.VITE_TT_BOYS_API ?? null;
     case 'table_tennis:girls':
       return process.env.VITE_TT_GIRLS_API ?? null;
+    case 'table_tennis:boys_final_stages':
+      return process.env.VITE_TT_BOYS_FINAL_API ?? null;
+    case 'table_tennis:girls_final_stages':
+      return process.env.VITE_TT_GIRLS_FINAL_API ?? null;
     case 'futsal:table':
       return process.env.VITE_FUTSAL_API ?? null;
+    case 'futsal:final_stages':
+      return process.env.VITE_FUTSAL_FINAL_API ?? null;
+    case 'football:final_stages':
+      return process.env.VITE_FOOTBALL_FINAL_API ?? null;
     default:
       return null;
   }
