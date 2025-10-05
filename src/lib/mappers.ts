@@ -41,13 +41,53 @@ export function mapFootballKnockoutToGame(knockout: FootballKnockoutRow[]): Game
     };
 }
 
+export function mapFootballFinalStagesToGame(stageData: FootballKnockoutRow[]): Game {
+  if (!stageData) return { name: 'Final Stages', rows: [] };
+  return {
+    name: 'Final Stages',
+    rows: stageData.map(
+      (row): Row => ({
+        team: row.team,
+        played: row.win + row.loss,
+        won: row.win ?? 0,
+        draw: 0,
+        loss: row.loss,
+        points: row.score ?? 0,
+        goals_scored: 0,
+        goal_difference: 0,
+        cards: { yellow: 0, red: 0 },
+      })
+    ),
+  };
+}
+
+export function mapFutsalFinalStagesToGame(stageData: FootballKnockoutRow[]): Game {
+  if (!stageData) return { name: 'Final Stages', rows: [] };
+  return {
+    name: 'Final Stages',
+    rows: stageData.map(
+      (row): Row => ({
+        team: row.team,
+        played: row.win + row.loss,
+        won: row.win ?? 0,
+        draw: 0,
+        loss: row.loss,
+        points: row.score ?? 0,
+        goals_scored: 0,
+        goal_difference: 0,
+        cards: { yellow: 0, red: 0 },
+      })
+    ),
+  };
+}
+
 export function mapTableTennisPoolsToGames(pools: Record<string, TableTennisRow[]>): Game[] {
   if (!pools) return [];
   return Object.entries(pools).map(([poolName, rows]) => ({
     name: `Pool ${poolName.split('_')[1].toUpperCase()}`,
     rows: rows.map(
       (row): Row => ({
-        team: row.team_name, // Changed from row.team to row.team_name
+        team: row.team_name,
         played: row.matches_played,
         won: row.won,
         draw: 0,
@@ -55,7 +95,7 @@ export function mapTableTennisPoolsToGames(pools: Record<string, TableTennisRow[
         points: row.points,
         goals_scored: 0,
         goal_difference: 0,
-        cards: { yellow: 0, red: 0 }, // Default values as not applicable for TT
+        cards: { yellow: 0, red: 0 },
       })
     ),
   }));
@@ -81,6 +121,25 @@ export function mapTableTennisKnockoutToGame(knockout: TableTennisKnockoutRow[])
   };
 }
 
+export function mapTableTennisFinalStagesToGame(stageData: TableTennisKnockoutRow[]): Game {
+  if (!stageData) return { name: 'Final Stages', rows: [] };
+  return {
+    name: 'Final Stages',
+    rows: stageData.map(
+      (row): Row => ({
+        team: row.team,
+        played: row.win + row.loss,
+        won: row.win ?? 0,
+        draw: 0,
+        loss: row.loss,
+        points: row.score ?? 0,
+        goals_scored: 0,
+        goal_difference: 0,
+        cards: { yellow: 0, red: 0 },
+      })
+    ),
+  };
+}
 
 export function mapFutsalToGame(futsal: FutsalRow[]): Game {
     if (!futsal) return { name: 'Arsenal', rows: [] };

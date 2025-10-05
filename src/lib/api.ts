@@ -4,10 +4,18 @@ function getApiUrl(type: string): string | null {
       return import.meta.env.VITE_FOOTBALL_API ?? null;
     case 'table_tennis:boys':
       return import.meta.env.VITE_TT_BOYS_API ?? null;
+    case 'table_tennis:boys_final_stages':
+      return import.meta.env.VITE_TT_BOYS_FINAL_API ?? null;
+    case 'table_tennis:girls_final_stages':
+      return import.meta.env.VITE_TT_GIRLS_FINAL_API ?? null;
     case 'table_tennis:girls':
       return import.meta.env.VITE_TT_GIRLS_API ?? null;
     case 'futsal:table':
       return import.meta.env.VITE_FUTSAL_API ?? null;
+    case 'futsal:final_stages':
+      return import.meta.env.VITE_FUTSAL_FINAL_API ?? null;
+    case 'football:final_stages':
+      return import.meta.env.VITE_FOOTBALL_FINAL_API ?? null;
     default:
       return null;
   }
@@ -32,12 +40,20 @@ async function fetchData<T>(type: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export function getFootball(){
+export function getFootball() {
   return fetchData<CombinedFootballData>('football:table');
 }
 
 export function getTableTennisBoys() {
   return fetchData<TableTennisData>('table_tennis:boys');
+}
+
+export function getTableTennisBoysFinalStages() {
+  return fetchData<TableTennisFinalStagesData>('table_tennis:boys_final_stages');
+}
+
+export function getTableTennisGirlsFinalStages() {
+  return fetchData<TableTennisFinalStagesData>('table_tennis:girls_final_stages');
 }
 
 export function getTableTennisGirls() {
@@ -46,6 +62,14 @@ export function getTableTennisGirls() {
 
 export function getFutsalTable() {
   return fetchData<CombinedFutsalData>('futsal:table');
+}
+
+export function getFutsalFinalStages() {
+  return fetchData<FutsalFinalStagesData>('futsal:final_stages');
+}
+
+export function getFootballFinalStages() {
+  return fetchData<FootballFinalStagesData>('football:final_stages');
 }
 
 export interface FootballPoolRow {
@@ -87,6 +111,17 @@ export interface TableTennisData {
   tt_girls_knockout: TableTennisKnockoutRow[];
 }
 
+export interface TableTennisFinalStagesData {
+  tt_boys_quarter: TableTennisKnockoutRow[];
+  tt_boys_semi: TableTennisKnockoutRow[];
+  tt_boys_bronze: TableTennisKnockoutRow[];
+  tt_boys_final: TableTennisKnockoutRow[];
+  tt_girls_quarter: TableTennisKnockoutRow[];
+  tt_girls_semi: TableTennisKnockoutRow[];
+  tt_girls_bronze: TableTennisKnockoutRow[];
+  tt_girls_final: TableTennisKnockoutRow[];
+}
+
 export interface TableTennisKnockoutRow {
   team: string;
   win: number;
@@ -100,10 +135,24 @@ export interface CombinedFutsalData {
 }
 
 export interface FutsalRow {
-    team_name: string;
-    played: number;
-    win: number;
-    draw: number;
-    loss: number;
-    points: number;
+  team_name: string;
+  played: number;
+  win: number;
+  draw: number;
+  loss: number;
+  points: number;
+}
+
+export interface FutsalFinalStagesData {
+  futsal_quarter: FootballKnockoutRow[];
+  futsal_semi: FootballKnockoutRow[];
+  futsal_bronze: FootballKnockoutRow[];
+  futsal_final: FootballKnockoutRow[];
+}
+
+export interface FootballFinalStagesData {
+  football_quarter: FootballKnockoutRow[];
+  football_semi: FootballKnockoutRow[];
+  football_bronze: FootballKnockoutRow[];
+  football_final: FootballKnockoutRow[];
 }
