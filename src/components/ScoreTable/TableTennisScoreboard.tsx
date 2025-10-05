@@ -87,7 +87,7 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
   const hasSemiDataGirls = semiGameGirls.rows.length > 0;
   const hasQuarterDataGirls = quarterGameGirls.rows.length > 0;
 
-  const renderKnockoutTable = (game: Game, title: string, gender: 'boys' | 'girls') => (
+  const renderKnockoutTable = (game: Game, title: string) => (
     <>
       <h2 className="text-2xl font-bold mb-4 text-blue-900">{title}</h2>
       <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
@@ -160,23 +160,23 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
       </div>
 
       {viewGender === 'boys' && hasFinalDataBoys ? (
-        renderKnockoutTable(finalGameBoys, 'Final', 'boys')
+        renderKnockoutTable(finalGameBoys, 'Final')
       ) : viewGender === 'boys' && hasBronzeDataBoys ? (
-        renderKnockoutTable(bronzeGameBoys, 'Bronze Match', 'boys')
+        renderKnockoutTable(bronzeGameBoys, 'Bronze Match')
       ) : viewGender === 'boys' && hasSemiDataBoys ? (
-        renderKnockoutTable(semiGameBoys, 'Semi Final', 'boys')
+        renderKnockoutTable(semiGameBoys, 'Semi Final')
       ) : viewGender === 'boys' && hasQuarterDataBoys ? (
-        renderKnockoutTable(quarterGameBoys, 'Quarter Final', 'boys')
+        renderKnockoutTable(quarterGameBoys, 'Quarter Final')
       ) : viewGender === 'girls' && hasFinalDataGirls ? (
-        renderKnockoutTable(finalGameGirls, 'Final', 'girls')
+        renderKnockoutTable(finalGameGirls, 'Final')
       ) : viewGender === 'girls' && hasBronzeDataGirls ? (
-        renderKnockoutTable(bronzeGameGirls, 'Bronze Match', 'girls')
+        renderKnockoutTable(bronzeGameGirls, 'Bronze Match')
       ) : viewGender === 'girls' && hasSemiDataGirls ? (
-        renderKnockoutTable(semiGameGirls, 'Semi Final', 'girls')
+        renderKnockoutTable(semiGameGirls, 'Semi Final')
       ) : viewGender === 'girls' && hasQuarterDataGirls ? (
-        renderKnockoutTable(quarterGameGirls, 'Quarter Final', 'girls')
+        renderKnockoutTable(quarterGameGirls, 'Quarter Final')
       ) : hasKnockoutData ? (
-        renderKnockoutTable(knockoutGame, `Knockout`, viewGender)
+        renderKnockoutTable(knockoutGame, `Knockout`)
       ) : hasPoolData ? (
         <div className="space-y-8">
           <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
