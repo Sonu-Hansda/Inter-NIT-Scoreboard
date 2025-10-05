@@ -102,19 +102,35 @@ export default function FootballScoreboard() {
     );
   }
 
+  // Determine the current main stage for display priority
+  let currentMainStage: 'final' | 'bronze' | 'semi' | 'quarter' | 'knockout' | 'pool' | 'none' = 'none';
+  if (hasFinalData) {
+    currentMainStage = 'final';
+  } else if (hasBronzeData) {
+    currentMainStage = 'bronze';
+  } else if (hasSemiData) {
+    currentMainStage = 'semi';
+  } else if (hasQuarterData) {
+    currentMainStage = 'quarter';
+  } else if (hasKnockoutData) {
+    currentMainStage = 'knockout';
+  } else if (hasPoolData) {
+    currentMainStage = 'pool';
+  }
+
   return (
     <div className="animate-fade-in min-h-[600px]">
-      {hasFinalData ? (
-        renderKnockoutTable(finalGame, 'Final')
-      ) : hasBronzeData ? (
+      {currentMainStage === 'final' ? (
+        renderKnockoutTable(finalGame, 'Final Stage')
+      ) : currentMainStage === 'bronze' ? (
         renderKnockoutTable(bronzeGame, 'Bronze Match')
-      ) : hasSemiData ? (
-        renderKnockoutTable(semiGame, 'Semi Final')
-      ) : hasQuarterData ? (
-        renderKnockoutTable(quarterGame, 'Quarter Final')
-      ) : hasKnockoutData ? (
-        renderKnockoutTable(knockoutGame, 'Knockout')
-      ) : hasPoolData ? (
+      ) : currentMainStage === 'semi' ? (
+        renderKnockoutTable(semiGame, 'Semi-Final Stage')
+      ) : currentMainStage === 'quarter' ? (
+        renderKnockoutTable(quarterGame, 'Quarter-Final Stage')
+      ) : currentMainStage === 'knockout' ? (
+        renderKnockoutTable(knockoutGame, 'Knockout Stage')
+      ) : currentMainStage === 'pool' ? (
         <div className="space-y-8 min-h-[400px]">
           {poolGames.map((game) => (
             game.rows.length > 0 && (
@@ -153,72 +169,15 @@ export default function FootballScoreboard() {
       )}
 
       {/* Display previous stages as smaller tables */}
-      {hasFinalData && (
+      {currentMainStage !== 'none' && currentMainStage !== 'pool' && (
         <div className="mt-8 min-h-[300px]">
           <h2 className="text-2xl font-bold mb-4 text-blue-900">Past Matches</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hasBronzeData && <PastGameTable key="bronze" game={bronzeGame} narrow={true} title="Bronze Match" />}
-            {hasSemiData && <PastGameTable key="semi" game={semiGame} narrow={true} title="Semi Final" />}
-            {hasQuarterData && <PastGameTable key="quarter" game={quarterGame} narrow={true} title="Quarter Final" />}
-            {hasKnockoutData && <PastGameTable key="knockout" game={knockoutGame} narrow={true} title="Knockout" />}
+            {currentMainStage === 'final' && hasBronzeData && <PastGameTable key="bronze" game={bronzeGame} narrow={true} title="Bronze Match" />}
+            {(currentMainStage === 'final' || currentMainStage === 'bronze') && hasSemiData && <PastGameTable key="semi" game={semiGame} narrow={true} title="Semi Final" />}
+            {(currentMainStage === 'final' || currentMainStage === 'bronze' || currentMainStage === 'semi') && hasQuarterData && <PastGameTable key="quarter" game={quarterGame} narrow={true} title="Quarter Final" />}
+            {(currentMainStage === 'final' || currentMainStage === 'bronze' || currentMainStage === 'semi' || currentMainStage === 'quarter') && hasKnockoutData && <PastGameTable key="knockout" game={knockoutGame} narrow={true} title="Knockout" />}
             {hasPoolData && poolGames.map((game: Game) => game.rows.length > 0 && <PastGameTable key={game.name} game={game} narrow={true} title={`Pool ${game.name.split(' ')[1]}`} />)}
-          </div>
-        </div>
-      )}
-
-      {hasBronzeData && !hasFinalData && (
-        <div className="mt-8 min-h-[300px]">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Past Matches</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hasSemiData && <PastGameTable key="semi" game={semiGame} narrow={true} title="Semi Final" />}
-            {hasQuarterData && <PastGameTable key="quarter" game={quarterGame} narrow={true} title="Quarter Final" />}
-            {hasKnockoutData && <PastGameTable key="knockout" game={knockoutGame} narrow={true} title="Knockout" />}
-            {hasPoolData && poolGames.map((game: Game) => game.rows.length > 0 && <PastGameTable key={game.name} game={game} narrow={true} title={`Pool ${game.name.split(' ')[1]}`} />)}
-          </div>
-        </div>
-      )}
-
-      {hasSemiData && !hasFinalData && !hasBronzeData && (
-        <div className="mt-8 min-h-[300px]">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Past Matches</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hasQuarterData && <PastGameTable key="quarter" game={quarterGame} narrow={true} title="Quarter Final" />}
-            {hasKnockoutData && <PastGameTable key="knockout" game={knockoutGame} narrow={true} title="Knockout" />}
-            {hasPoolData && poolGames.map((game: Game) => game.rows.length > 0 && <PastGameTable key={game.name} game={game} narrow={true} title={`Pool ${game.name.split(' ')[1]}`} />)}
-          </div>
-        </div>
-      )}
-
-      {hasQuarterData && !hasFinalData && !hasBronzeData && !hasSemiData && (
-        <div className="mt-8 min-h-[300px]">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Past Matches</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hasKnockoutData && <PastGameTable key="knockout" game={knockoutGame} narrow={true} title="Knockout" />}
-            {hasPoolData && poolGames.map((game: Game) => game.rows.length > 0 && <PastGameTable key={game.name} game={game} narrow={true} title={`Pool ${game.name.split(' ')[1]}`} />)}
-          </div>
-        </div>
-      )}
-
-      {hasKnockoutData && !hasFinalData && !hasBronzeData && !hasSemiData && !hasQuarterData && hasPoolData && (
-        <div className="mt-8 min-h-[300px]">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {poolGames.map(
-              (game: Game) =>
-                game.rows.length > 0 && <PastGameTable key={game.name} game={game} narrow={true} title={`Pool ${game.name.split(' ')[1]}`} />
-            )}
-          </div>
-        </div>
-      )}
-
-      {!hasFinalData && !hasBronzeData && !hasSemiData && !hasQuarterData && !hasKnockoutData && hasPoolData && (
-        <div className="mt-8 min-h-[300px]">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {poolGames.map(
-              (game: Game) =>
-                game.rows.length > 0 && <PastGameTable key={game.name} game={game} />
-            )}
           </div>
         </div>
       )}
