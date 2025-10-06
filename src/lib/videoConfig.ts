@@ -12,16 +12,16 @@ export interface SportVideos {
 
 export const VIDEO_CONFIG: SportVideos = {
   football: [
-    { label: 'Football Ground 1', url: 'https://www.youtube.com/embed/nqgioYWf5tc?si=BjcbPYP_pejX_AEp' },
-    { label: 'Football Ground 4', url: 'https://www.youtube.com/embed/58ZG09L81YM?si=Pcytc9cxnpPnyEpa' },
+    { label: 'Football Ground 1', url: 'https://www.youtube.com/embed/zIdWatipF0A?si=vX-MM8njuGuK9vf5' },
+    { label: 'Football Ground 4', url: 'https://www.youtube.com/embed/MxisEf0Ujew?si=pdzHEy8Dw-6XmzWN' },
   ],
   tableTennisBoys: [
-    { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/YikUAH1Pwus?si=TcbjCXNyFB5CEtCh' },
+    { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/eUcDm38B1Xw?si=l_E6PEHch0BEy1yk' },
   ],
   tableTennisGirls: [
-    { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/YikUAH1Pwus?si=TcbjCXNyFB5CEtCh' },
+    { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/eUcDm38B1Xw?si=l_E6PEHch0BEy1yk' },
   ],
   futsal: [
-    { label: 'Footbal Ground 2', url: 'https://www.youtube.com/embed/jOW0uiiHqlI?si=hnaqlcC7t5DOv1K_' },
+    { label: 'Footbal Ground 2', url: 'https://www.youtube.com/embed/FB8SkieFpJM?si=cewPiUASmZLxN-SG' },
   ],
 };
