@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const images = [
-  "/images/gallery1.jpg",
-  "/images/gallery2.jpg",
-  "/images/gallery3.jpg",
-  "/images/gallery4.jpg",
-  "/images/gallery5.jpg",
-  "/images/gallery6.jpg",
+  "/public/futsal.jpg",
+  "/public/futsal02.jpg",
+  "/public/futsal03.jpg",
+  "/public/gallery4.jpg",
+  "/public/gallery5.jpg",
+  "/public/gallery6.jpg",
 ];
 
 const Gallery: React.FC = () => {

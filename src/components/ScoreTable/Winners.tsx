@@ -30,7 +30,7 @@ const Winners = () => {
       winner: "NIT Calicut",
       bestPlayer: "Vivek Raj",
       runnerUp: "NIT Rourkela",
-      images: ["/images/futsal1.jpg", "/images/futsal2.jpg", "/images/futsal3.jpg"],
+      images: ["/public/futsal.jpg", "/public/futsal02.jpg", "/public/futsal03.jpg"],
     },
   };
 
