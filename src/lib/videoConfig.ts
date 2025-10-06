@@ -22,6 +22,6 @@ export const VIDEO_CONFIG: SportVideos = {
     { label: 'Table Tennis Live', url: 'https://www.youtube.com/embed/eUcDm38B1Xw?si=l_E6PEHch0BEy1yk' },
   ],
   futsal: [
-    { label: 'Footbal Ground 2', url: 'https://www.youtube.com/embed/FB8SkieFpJM?si=cewPiUASmZLxN-SG' },
+    { label: 'Footbal Ground 2', url: 'https://www.youtube.com/embed/jwL3qufOLA0?si=mtiWU5vPKV4HzCEF' },
   ],
 };
