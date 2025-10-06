@@ -4,9 +4,18 @@ import FootballScoreboard from "./FootballScoreboard";
 import TableTennisScoreboard from "./TableTennisScoreboard";
 import FutsalScoreboard from "./FutsalScoreboard";
 import Teams from "./TeamDisplay";
+import Winners from "./Winners";
+import Gallery from "./Gallery";
 import { VIDEO_CONFIG, type VideoSource } from "../../lib/videoConfig";
 
-const SPORTS = ["Football", "Table Tennis", "Futsal", "Teams"];
+const SPORTS = [
+  "Football",
+  "Table Tennis",
+  "Futsal",
+  "Teams",
+  "Winners",
+  "Gallery",
+];
 
 export default function ScoreTable() {
   const [selected, setSelected] = useState(SPORTS[0]);
@@ -58,6 +67,10 @@ export default function ScoreTable() {
         return <FutsalScoreboard />;
       case "Teams":
         return <Teams />;
+      case "Winners":
+        return <Winners />;
+      case "Gallery":
+        return <Gallery />;
       default:
         return null;
     }
@@ -104,11 +117,11 @@ export default function ScoreTable() {
             </div>
           </div>
 
-          {/* Scoreboards */}
+          {/* Scoreboards / Winners / Gallery */}
           {renderScoreboard()}
 
-          {/* Videos */}
-          {currentVideo && selected !== "Teams" && (
+          {/* Videos for sports only */}
+          {currentVideo && !["Teams", "Winners", "Gallery"].includes(selected) && (
             <div className="mt-8 mb-8">
               <div className="relative aspect-video w-full bg-gray-200 rounded-lg overflow-hidden shadow-lg">
                 <iframe
@@ -142,6 +155,7 @@ export default function ScoreTable() {
         </div>
       </div>
 
+      {/* Footer Logos */}
       <div className="flex flex-wrap justify-center items-center gap-8 py-4 border-t border-gray-300">
         <img
           src="/internit_logo.png"

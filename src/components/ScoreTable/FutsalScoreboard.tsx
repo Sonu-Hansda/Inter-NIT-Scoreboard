@@ -28,14 +28,12 @@ export default function FutsalScoreboard() {
 
   const poolGames = mapFootballPoolsToGames(pools);
   const knockoutGame = mapFootballKnockoutToGame(knockout);
-
   const hasKnockoutData = knockout && knockout.length > 0;
   const hasPoolData = pools && Object.keys(pools).length > 0;
 
   if (loading) {
     const koHeaders = ['Team', 'Won', 'Loss', 'Score'];
     const poolHeaders = ['Team', 'Played', 'Won', 'Draw', 'Loss', 'Points', 'GS', 'GD'];
-
     return (
       <div className="min-h-screen bg-gray-100 text-gray-800 p-6 md:p-10 space-y-10">
         <SkeletonTable headers={koHeaders} rows={4} />
@@ -77,36 +75,37 @@ export default function FutsalScoreboard() {
       ) : (
         hasPoolData && (
           <div className="space-y-8">
-              {poolGames.map((game) => (
+            {poolGames.map(
+              (game) =>
                 game.rows.length > 0 && (
-                <div key={game.name}>
-                  <h2 className="text-2xl font-bold mb-4 text-blue-900">{game.name}</h2>
-                <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
-                  <table className="w-full text-sm text-gray-700">
-                    <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
-                      <tr>
-                        <th className="px-6 py-3 text-left font-medium">Team</th>
-                        <th className="px-6 py-3 text-center font-medium">Played</th>
-                        <th className="px-6 py-3 text-center font-medium">Won</th>
-                        <th className="px-6 py-3 text-center font-medium">Draw</th>
-                        <th className="px-6 py-3 text-center font-medium">Loss</th>
-                          <th className="px-6 py-3 text-center font-medium">Points</th>
-                          <th className="px-6 py-3 text-center font-medium">Goal Score</th>
-                          <th className="px-6 py-3 text-center font-medium">Goal Difference</th>
-                          <th className="px-6 py-3 text-center font-medium">Cards</th>
-                        </tr>
-                      </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {game.rows.map((row: Row, i: number) => (
-                        <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={false} />
-                      ))}
-                    </tbody>
-                  </table>
+                  <div key={game.name}>
+                    <h2 className="text-2xl font-bold mb-4 text-blue-900">{game.name}</h2>
+                    <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+                      <table className="w-full text-sm text-gray-700">
+                        <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
+                          <tr>
+                            <th className="px-6 py-3 text-left font-medium">Team</th>
+                            <th className="px-6 py-3 text-center font-medium">Played</th>
+                            <th className="px-6 py-3 text-center font-medium">Won</th>
+                            <th className="px-6 py-3 text-center font-medium">Draw</th>
+                            <th className="px-6 py-3 text-center font-medium">Loss</th>
+                            <th className="px-6 py-3 text-center font-medium">Points</th>
+                            <th className="px-6 py-3 text-center font-medium">Goal Score</th>
+                            <th className="px-6 py-3 text-center font-medium">Goal Difference</th>
+                            <th className="px-6 py-3 text-center font-medium">Cards</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {game.rows.map((row: Row, i: number) => (
+                            <TeamRow key={row.team} row={row} delay={i * 100} isKnockout={false} />
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
                 )
-              ))}
-            </div>
+            )}
+          </div>
         )
       )}
 

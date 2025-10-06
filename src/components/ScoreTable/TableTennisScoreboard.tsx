@@ -12,7 +12,10 @@ interface TableTennisScoreboardProps {
   setViewGender: (gender: 'boys' | 'girls') => void;
 }
 
-export default function TableTennisScoreboard({ viewGender, setViewGender }: TableTennisScoreboardProps) {
+export default function TableTennisScoreboard({
+  viewGender,
+  setViewGender,
+}: TableTennisScoreboardProps) {
   const [boysPoolData, setBoysPoolData] = useState<Record<string, TableTennisRow[]>>({});
   const [boysKnockoutData, setBoysKnockoutData] = useState<TableTennisKnockoutRow[]>([]);
   const [girlsPoolData, setGirlsPoolData] = useState<Record<string, TableTennisRow[]>>({});
@@ -94,7 +97,9 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
 
       {hasKnockoutData ? (
         <>
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Knockout Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">
+            Knockout Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}
+          </h2>
           <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
             <table className="w-full text-sm text-gray-700">
               <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
@@ -107,8 +112,14 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {knockoutGame.rows.map((row, i: number) => (
-                  <tr key={row.team} className="hover:bg-gray-50 animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{row.team}</td>
+                  <tr
+                    key={row.team}
+                    className="hover:bg-gray-50 animate-fade-in"
+                    style={{ animationDelay: `${i * 100}ms` }}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                      {row.team}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">{row.won}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">{row.loss}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">{row.points}</td>
@@ -120,42 +131,50 @@ export default function TableTennisScoreboard({ viewGender, setViewGender }: Tab
         </>
       ) : hasPoolData ? (
         <div className="space-y-8">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
-          {poolGames.map((game) => (
-            game.rows.length > 0 && (
-              <div key={game.name}>
-                <h3 className="text-xl font-semibold mb-2 text-gray-800">{game.name}</h3>
-                <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
-                  <table className="w-full text-sm text-gray-700">
-                    <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
-                      <tr>
-                        <th className="px-6 py-3 text-left font-medium">Team</th>
-                        <th className="px-6 py-3 text-center font-medium">Played</th>
-                        <th className="px-6 py-3 text-center font-medium">Won</th>
-                        <th className="px-6 py-3 text-center font-medium">Loss</th>
-                        <th className="px-6 py-3 text-center font-medium">Points</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {game.rows.map((row, i: number) => (
-                        <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
-                      ))}
-                    </tbody>
-                  </table>
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">
+            Pool Stage - {viewGender === 'boys' ? 'Boys' : 'Girls'}
+          </h2>
+          {poolGames.map(
+            (game) =>
+              game.rows.length > 0 && (
+                <div key={game.name}>
+                  <h3 className="text-xl font-semibold mb-2 text-gray-800">{game.name}</h3>
+                  <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+                    <table className="w-full text-sm text-gray-700">
+                      <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-600">
+                        <tr>
+                          <th className="px-6 py-3 text-left font-medium">Team</th>
+                          <th className="px-6 py-3 text-center font-medium">Played</th>
+                          <th className="px-6 py-3 text-center font-medium">Won</th>
+                          <th className="px-6 py-3 text-center font-medium">Loss</th>
+                          <th className="px-6 py-3 text-center font-medium">Points</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {game.rows.map((row, i: number) => (
+                          <TableTennisTeamRow key={row.team} row={row} delay={i * 100} />
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            )
-          ))}
+              )
+          )}
         </div>
       ) : (
         <div className="text-center py-10">
-          <p className="text-lg text-gray-500">No match data available at the moment for {viewGender === 'boys' ? 'Boys' : 'Girls'}.</p>
+          <p className="text-lg text-gray-500">
+            No match data available at the moment for{' '}
+            {viewGender === 'boys' ? 'Boys' : 'Girls'}.
+          </p>
         </div>
       )}
 
       {hasKnockoutData && hasPoolData && (
         <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4 text-blue-900">Pool Standings - {viewGender === 'boys' ? 'Boys' : 'Girls'}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-blue-900">
+            Pool Standings - {viewGender === 'boys' ? 'Boys' : 'Girls'}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {poolGames.map(
               (game: Game) =>
